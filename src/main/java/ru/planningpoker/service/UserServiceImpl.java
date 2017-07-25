@@ -1,43 +1,62 @@
 package ru.planningpoker.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.planningpoker.model.User;
+import ru.planningpoker.repository.UserRepository;
+import ru.planningpoker.util.exception.NotFoundException;
 
 import java.util.List;
+
+import static ru.planningpoker.util.ValidationUtil.checkNotFound;
+import static ru.planningpoker.util.ValidationUtil.checkNotFoundWithId;
 
 /**
  * Created by Icebear on 22.07.2017.
  */
+@Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository repository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
     public User save(User user) {
-        return null;
+        Assert.notNull(user, "user must not be null");
+        return repository.save(user);
     }
 
-    public void delete(int id) {
-
+    @CacheEvict(value = "users", allEntries = true)
+    public void delete(int id) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
-    public User get(int id) {
-        return null;
+
+    public User get(int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
-    public User getByEmail(String email) {
-        return null;
+
+    public User getByEmail(String email) throws NotFoundException {
+        Assert.notNull(email, "email must not be null");
+        return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
-        return null;
+        return repository.getAll();
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
-
-    }
-
-    public void evictCache() {
-
-    }
-
-    public void enable(int id, boolean enable) {
-
+        Assert.notNull(user, "user must not be null");
+        repository.save(user);
     }
 }

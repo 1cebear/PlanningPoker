@@ -1,10 +1,19 @@
 package ru.planningpoker.model;
 
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
+
 /**
  * Created by Icebear on 22.07.2017.
  */
+@MappedSuperclass
+@Access(AccessType.FIELD)
 public class BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Access(value = AccessType.PROPERTY)
     private Integer id;
 
     protected BaseEntity() {
@@ -31,4 +40,21 @@ public class BaseEntity {
     public String toString() {
         return String.format("Entity %s (%s)", getClass().getName(), getId());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) o;
+        return getId() != null && getId().equals(that.getId());
+    }
+
+    public boolean isNew() {
+        return (getId() == null);
+    }
+
 }
