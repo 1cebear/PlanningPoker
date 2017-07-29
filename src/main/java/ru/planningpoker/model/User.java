@@ -18,6 +18,10 @@ import java.util.Set;
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends BaseEntity{
 
+    public User() {
+        super();
+    }
+
     @NotBlank
     @Column(name = "name", nullable = false)
     private String name;
