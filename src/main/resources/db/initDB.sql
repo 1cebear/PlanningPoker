@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS stories;
 DROP TABLE IF EXISTS storyset;
@@ -13,7 +14,8 @@ CREATE TABLE users
   enabled    BOOL                DEFAULT TRUE
 );
 
-ALTER TABLE users AUTO_INCREMENT = 1;
+ALTER TABLE users
+  AUTO_INCREMENT = 1;
 
 CREATE TABLE user_roles
 (
@@ -26,20 +28,33 @@ CREATE TABLE user_roles
 
 CREATE TABLE storyset
 (
-  id          INTEGER PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  voted BOOLEAN NOT NULL
+  id    INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name  VARCHAR(100) NOT NULL,
+  voted BOOLEAN      NOT NULL
 );
 
-ALTER TABLE storyset AUTO_INCREMENT = 1;
+ALTER TABLE storyset
+  AUTO_INCREMENT = 1;
 
 CREATE TABLE stories
 (
   id          INTEGER PRIMARY KEY AUTO_INCREMENT,
-  set_id      INTEGER NOT NULL,
+  set_id      INTEGER      NOT NULL,
   summary     VARCHAR(100) NOT NULL,
   description TEXT,
   link        TEXT,
   FOREIGN KEY (set_id) REFERENCES storyset (id)
-  ON DELETE CASCADE
+    ON DELETE CASCADE
 );
+
+CREATE TABLE votes
+(
+  id       INTEGER PRIMARY KEY AUTO_INCREMENT,
+  user_id  INTEGER    NOT NULL,
+  story_id INTEGER    NOT NULL,
+  vote     VARCHAR(3) NOT NULL,
+  FOREIGN KEY (story_id) REFERENCES stories (id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE CASCADE
+)

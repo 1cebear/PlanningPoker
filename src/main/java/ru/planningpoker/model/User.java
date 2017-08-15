@@ -1,5 +1,6 @@
 package ru.planningpoker.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -50,6 +51,10 @@ public class User extends BaseEntity{
     @BatchSize(size = 200)
     private Set<Role> roles;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//    @JsonManagedReference
+    private Set<Vote> votes;
+
     public String getName() {
         return name;
     }
@@ -98,6 +103,14 @@ public class User extends BaseEntity{
         this.roles = roles;
     }
 
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
+    }
+
     public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Set<Role> roles) {
         super(id);
         this.name = name;
@@ -107,6 +120,17 @@ public class User extends BaseEntity{
         this.registered = registered;
         setRoles(roles);
 
+    }
+
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Set<Role> roles, Set<Vote> votes) {
+        super(id);
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        this.registered = registered;
+        setRoles(roles);
+        setVotes(votes);
     }
 
     @Override

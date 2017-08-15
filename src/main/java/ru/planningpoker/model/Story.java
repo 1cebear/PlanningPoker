@@ -1,12 +1,14 @@
 package ru.planningpoker.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * Created by Icebear on 06.08.2017.
@@ -31,6 +33,12 @@ public class Story extends BaseEntity{
     @JsonBackReference
     @NotNull
     private StorySet storySet;
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "story")
+//    @JsonManagedReference
+    private Set<Vote> votes;
+
 
     public String getSummary() {
         return summary;
@@ -64,6 +72,13 @@ public class Story extends BaseEntity{
         this.storySet = storySet;
     }
 
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
+    }
     public Story() {
         super();
     }
@@ -73,5 +88,14 @@ public class Story extends BaseEntity{
         this.summary = summary;
         this.description = description;
         this.link = link;
+    }
+
+    public Story(Integer id, String summary, String description, String link, StorySet storySet, Set<Vote> votes) {
+        super(id);
+        this.summary = summary;
+        this.description = description;
+        this.link = link;
+        this.storySet = storySet;
+        setVotes(votes);
     }
 }

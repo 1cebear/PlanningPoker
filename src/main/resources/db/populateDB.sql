@@ -1,12 +1,17 @@
 DELETE FROM user_roles;
+DELETE FROM votes;
 DELETE FROM users;
 DELETE FROM stories;
 DELETE FROM storyset;
+
 
 ALTER TABLE users
   AUTO_INCREMENT = 1;
 
 ALTER TABLE storyset
+  AUTO_INCREMENT = 1;
+
+ALTER TABLE stories
   AUTO_INCREMENT = 1;
 
 INSERT INTO users (name, email, password)
@@ -30,3 +35,9 @@ INSERT INTO stories (set_id, summary, description, link) VALUES
   (1, "task 3", "task 3", ""),
   (2, "task 4", "task 4", ""),
   (2, "task 5", "task 5", "");
+
+INSERT INTO votes (user_id, story_id, vote) VALUES
+  (1, 1, "0"),
+  (1, 2, "1"),
+  (2, 1, "1"),
+  (2, 2, "2");
