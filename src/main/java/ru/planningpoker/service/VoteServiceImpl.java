@@ -45,4 +45,8 @@ public class VoteServiceImpl implements VoteService {
         Assert.notNull(vote, "vote must not be null");
         repository.save(vote, storyId, userId);
     }
+
+    public List<Vote> getAllForSet(int setId) {
+        return repository.getAllForSet(setId);
+    }
 }

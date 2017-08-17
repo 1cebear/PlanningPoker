@@ -46,4 +46,9 @@ public class AbstractVoteController {
         checkIdConsistent(vote, id);
         service.update(vote, storyId, userId);
     }
+
+    public List<Vote> getAllForSet(int setId) {
+        log.info("getAll");
+        return service.getAllForSet(setId);
+    }
 }

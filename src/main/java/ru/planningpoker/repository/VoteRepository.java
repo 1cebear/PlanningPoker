@@ -17,4 +17,6 @@ public interface VoteRepository {
     Vote get(int id, int storyId, int userId);
 
     List<Vote> getAll(int storyId, int userId);
+
+    List<Vote> getAllForSet(int setId);
 }

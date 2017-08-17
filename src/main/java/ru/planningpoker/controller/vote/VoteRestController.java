@@ -64,9 +64,14 @@ public class VoteRestController extends AbstractVoteController {
         return super.getAll(storyId, userId);
     }
 
-    @GetMapping("/{foruserandstory/id}/{storyId}/{userId}")
+    @GetMapping("/foruserandstory/{storyId}/{userId}/{id}")
     public Vote get(int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
         return super.get(id, storyId, userId);
+    }
+
+    @GetMapping("/forset/{setId}")
+    public List<Vote> getAllForSet(@PathVariable("setId") int setId) {
+        return super.getAllForSet(setId);
     }
 
     @DeleteMapping("/foruserandstory/{id}/{storyId}/{userId}")

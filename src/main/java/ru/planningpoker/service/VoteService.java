@@ -18,4 +18,6 @@ public interface VoteService {
     List<Vote> getAll(int storyId, int userId);
 
     void update(Vote vote, int storyId, int userId);
+
+    List<Vote> getAllForSet(int setId);
 }
