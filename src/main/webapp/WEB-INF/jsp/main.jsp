@@ -11,16 +11,16 @@
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
+<script type="text/javascript" src="resources/js/main.js"></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron">
-    <div class="container">
-        <p/>
-
-    </div>
+    <select class="storySetList"></select>
+    <%--<div class="container">--%>
+    <%--</div>--%>
 </div>
 <div class="mainArea">
 <div class="leftArea">
-    <select class="storySetList"></select>
+
     <br>
     <br>
     <br>
@@ -28,31 +28,31 @@
     <br>
     <br>
     <br>
-    <input type="radio" name="vote" value="0"/>0
-    <input type="radio" name="vote" value="1/2"/>1/2
-    <input type="radio" name="vote" value="1"/>1
-    <input type="radio" name="vote" value="2"/>2
-    <input type="radio" name="vote" value="3"/>3
-    <input type="radio" name="vote" value="5"/>5
-    <input type="radio" name="vote" value="8"/>8
-    <input type="radio" name="vote" value="13"/>13
-    <input type="radio" name="vote" value="20"/>20
-    <input type="radio" name="vote" value="40"/>40
-    <input type="radio" name="vote" value="100"/>100
-    <input type="radio" name="vote" value="?"/>?
-    <input type="radio" name="vote" value="Invalid"/>Invalid
-    <input type="radio" name="vote" value="Won't fix"/>Won't fix
-    <input type="radio" name="vote" value="Duplicate"/>Duplicate
+    <input type="radio" name="vote" value="0"/>0<br>
+    <input type="radio" name="vote" value="1/2"/>1/2<br>
+    <input type="radio" name="vote" value="1"/>1<br>
+    <input type="radio" name="vote" value="2"/>2<br>
+    <input type="radio" name="vote" value="3"/>3<br>
+    <input type="radio" name="vote" value="5"/>5<br>
+    <input type="radio" name="vote" value="8"/>8<br>
+    <input type="radio" name="vote" value="13"/>13<br>
+    <input type="radio" name="vote" value="20"/>20<br>
+    <input type="radio" name="vote" value="40"/>40<br>
+    <input type="radio" name="vote" value="100"/>100<br>
+    <input type="radio" name="vote" value="?"/>?<br>
+    <input type="radio" name="vote" value="Invalid"/>Invalid<br>
+    <input type="radio" name="vote" value="Won't fix"/>Won't fix<br>
+    <input type="radio" name="vote" value="Duplicate"/>Duplicate<br>
+    <br>
+    <input type="button" id="target" value="Submit"/>
 </div>
 
 <form id="mainForm">
 
     <div class="rightArea">
-test
+        <textarea id="description" name="description"></textarea>
 
-        <label>Id:</label>
 
-        <input type="button" id="target" value="Submit"/>
     </div>
 
 </form>

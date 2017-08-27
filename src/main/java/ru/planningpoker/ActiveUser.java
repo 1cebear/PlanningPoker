@@ -1,16 +1,49 @@
 package ru.planningpoker;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import ru.planningpoker.model.User;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * Created by Icebear on 13.08.2017.
  */
-public class ActiveUser {
-    public static int id = 2;
+public class ActiveUser extends org.springframework.security.core.userdetails.User {
+    private static final long serialVersionUID = 1L;
 
-    public static int id() {
-        return id;
+    private final User user;
+
+    public ActiveUser(User user) {
+        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
+        this.user = user;
     }
 
-    public static void setId(int id) {
-        ActiveUser.id = id;
+    public static ActiveUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof ActiveUser) ? (ActiveUser) principal : null;
+    }
+
+    public static ActiveUser get() {
+        ActiveUser user = safeGet();
+        requireNonNull(user, "No authorized user found");
+        return user;
+    }
+
+    public static int id() {
+        return get().user.getId();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return user.toString();
     }
 }

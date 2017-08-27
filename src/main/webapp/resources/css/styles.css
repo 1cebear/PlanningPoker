@@ -10,20 +10,21 @@
 
 .leftArea {
     position: absolute;
-    top:15%;
+    top:13%;
     width: 30%;
-    height: 80%;
+    height: 85%;
     border: solid 1px #CCCCCC;
     overflow-y: scroll;
 }
 
+
 .rightArea {
-    left: 35%;
-    top:15%;
+    left: 30%;
+    top:13%;
     position: absolute;
     overflow-y: scroll;
     width: 70%;
-    height: 80%;
+    height: 85%;
 }
 
 ul {
@@ -54,8 +55,8 @@ input, textarea {
 textarea {
     margin-bottom: 15px;
     margin-top: 5px;
-    height: 200px;
-    width: 250px;
+    height: 100%;
+    width: 100%;
 }
 
 label {

@@ -120,6 +120,7 @@ function findVotes(id) {
         dataType: "json",
         success: renderListVotes
     });
+    $('#description').val(currentStory.description);
 }
 
 function findStory(id) {
@@ -143,6 +144,7 @@ function renderListVotes(data) {
 
     if (list.length == 0) {
         $radios.prop('checked', false);
+        currentVoteId = null;
     }
     else {
         var vote = list[0];
@@ -154,7 +156,7 @@ function renderListVotes(data) {
 function voteToJSON() {
     return JSON.stringify({
         "id": currentVoteId == "" ? null : currentVoteId,
-        "vote":$('input:radio[name=vote]:checked').val(),
+        "vote": $('input:radio[name=vote]:checked').val(),
         "user": currentUser,
         "story": currentStory
     });
@@ -180,9 +182,23 @@ function updateVote() {
 
 $(document).ready(function () {
     $("#target").click(function () {
-        updateVote();
+        currentVoteId == null ? createVote() : updateVote();
     });
 });
 
-
-
+function createVote() {
+    console.log('createVote');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: votesURL + '/foruserandstory/' + currentStory.id + '/' + currentUser.id,
+        dataType: "text",
+        data: voteToJSON(),
+        success: function () {
+            alert('Vote created successfully');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('createVote error: ' + textStatus);
+        }
+    });
+}

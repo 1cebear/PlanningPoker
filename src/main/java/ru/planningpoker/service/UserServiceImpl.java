@@ -3,8 +3,11 @@ package ru.planningpoker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.planningpoker.ActiveUser;
 import ru.planningpoker.model.User;
 import ru.planningpoker.repository.UserRepository;
 import ru.planningpoker.util.exception.NotFoundException;
@@ -17,8 +20,8 @@ import static ru.planningpoker.util.ValidationUtil.checkNotFoundWithId;
 /**
  * Created by Icebear on 22.07.2017.
  */
-@Service
-public class UserServiceImpl implements UserService {
+@Service("userService")
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository repository;
 
@@ -58,5 +61,14 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
+    }
+
+
+    public ActiveUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        User u = repository.getByEmail(email.toLowerCase());
+        if (u == null) {
+            throw new UsernameNotFoundException("User " + email + " is not found");
+        }
+        return new ActiveUser(u);
     }
 }

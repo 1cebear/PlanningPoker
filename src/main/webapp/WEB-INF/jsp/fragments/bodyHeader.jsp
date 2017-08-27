@@ -3,8 +3,6 @@
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <a href="/main" class="navbar-brand">main</a>
-
         <div class="collapse navbar-collapse">
             <form class="navbar-form navbar-right">
 
