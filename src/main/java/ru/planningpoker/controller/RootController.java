@@ -25,7 +25,7 @@ public class RootController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String users(Model model) {
+    public String main(Model model) {
         return "main";
     }
 

@@ -65,7 +65,7 @@ public class VoteRestController extends AbstractVoteController {
     }
 
     @GetMapping("/foruserandstory/{storyId}/{userId}/{id}")
-    public Vote get(int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
+    public Vote get(@PathVariable("id") int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
         return super.get(id, storyId, userId);
     }
 
@@ -74,13 +74,13 @@ public class VoteRestController extends AbstractVoteController {
         return super.getAllForSet(setId);
     }
 
-    @DeleteMapping("/foruserandstory/{id}/{storyId}/{userId}")
-    public void delete(int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
+    @DeleteMapping("/foruserandstory/{storyId}/{userId}/{id}")
+    public void delete(@PathVariable("id") int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
         super.delete(id, storyId, userId);
     }
 
-    @PutMapping(value = "/foruserandstory/{id}/{storyId}/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(Vote vote, int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
+    @PutMapping(value = "/foruserandstory/{storyId}/{userId}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Vote vote, @PathVariable("id") int id, @PathVariable("storyId") int storyId, @PathVariable("userId") int userId) {
         super.update(vote, id, storyId, userId);
     }
 

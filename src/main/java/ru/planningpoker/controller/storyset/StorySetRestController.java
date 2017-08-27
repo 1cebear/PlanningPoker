@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.planningpoker.ActiveSet;
 import ru.planningpoker.model.StorySet;
 
 import java.net.URI;
@@ -27,6 +28,7 @@ public class StorySetRestController extends AbstractStorySetController {
     @Override
     @GetMapping("/{id}")
     public StorySet get(@PathVariable("id") int id) {
+        ActiveSet.setId(id);
         return super.get(id);
     }
 
