@@ -7,24 +7,40 @@
     padding-top: 5px;
 }
 
-
 .leftArea {
     position: absolute;
-    top:13%;
+    top: 13%;
     width: 30%;
     height: 85%;
     border: solid 1px #CCCCCC;
     overflow-y: scroll;
 }
 
+.leftBottomArea {
+    position: absolute;
+    top: 83%;
+    width: 30%;
+    height: 15%;
+    border: solid 1px #CCCCCC;
+    overflow-y: scroll;
+}
 
-.rightArea {
+.rightTopArea {
     left: 30%;
-    top:13%;
+    top: 13%;
     position: absolute;
     overflow-y: scroll;
     width: 70%;
-    height: 85%;
+    height: 70%;
+}
+
+.rightBottomArea {
+    left: 30%;
+    top: 83%;
+    position: absolute;
+    overflow-y: scroll;
+    width: 70%;
+    height: 15%;
 }
 
 ul {

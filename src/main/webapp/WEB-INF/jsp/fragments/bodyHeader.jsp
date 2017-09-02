@@ -1,15 +1,21 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page session="false" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="collapse navbar-collapse">
-            <form class="navbar-form navbar-right">
+        <a href="meals" class="navbar-brand">Planning poker</a>
 
-                <a class="btn btn-primary" href="">
-                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                </a>
-            </form>
+        <div class="collapse navbar-collapse">
+            <form:form class="navbar-form navbar-right" action="logout" method="post">
+                <sec:authorize access="isAuthenticated()">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    </button>
+                </sec:authorize>
+            </form:form>
         </div>
     </div>
 </div>

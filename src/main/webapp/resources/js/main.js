@@ -148,7 +148,8 @@ function renderListVotes(data) {
     }
     else {
         var vote = list[0];
-        $radios.filter('[value=' + vote.vote + ']').prop('checked', true);
+        $radios.value(vote.vote);
+        // $radios.filter('[value=' + vote.vote + ']').prop('checked', true);
         currentVoteId = vote.id;
     }
 }
