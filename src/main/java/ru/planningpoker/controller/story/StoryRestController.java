@@ -45,7 +45,7 @@ public class StoryRestController extends AbstractStoryController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Story> createWithLocation(@RequestBody Story story, @PathVariable("restaurantId") int setId) {
+    public ResponseEntity<Story> createWithLocation(@RequestBody Story story, @PathVariable("setId") int setId) {
         Story created = super.create(story, setId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

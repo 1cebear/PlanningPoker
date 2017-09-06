@@ -16,9 +16,16 @@ var currentUser;
 
 var currentStory;
 
+var isSetCreate;
+
+var setElements;
+
+var isStoryCreate;
+
 refresh();
 
 function refresh() {
+    setElements = [];
     findAllStorySets();
     findUser();
 }
@@ -27,7 +34,7 @@ function findUser() {
     console.log('findUser:');
     $.ajax({
         type: 'GET',
-        url: userURL + "/1",
+        url: userURL + "/active",
         dataType: "json", // data type of response
         success: function (data) {
             console.log('findUser success: ' + data.name);
@@ -50,12 +57,17 @@ function renderListStorySet(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     var list = data == null ? [] : (data instanceof Array ? data : [data]);
 
-    $('#storySetList option').remove();
+
+    for (var i = 0; i < setElements.length; i++) {
+        setElements[i].detach();
+    }
+    setElements = [];
     $.each(list, function (index, storySet) {
         $option = $('<option/>');
         $option.attr('value', storySet.id);
         $option.append(storySet.name);
         $('select.storySetList').append($option);
+        setElements.push($option);
     });
 
     $('select.storySetList').change(function () {
@@ -120,7 +132,6 @@ function findVotes(id) {
         dataType: "json",
         success: renderListVotes
     });
-    $('#description').val(currentStory.description);
 }
 
 function findStory(id) {
@@ -132,6 +143,7 @@ function findStory(id) {
         success: function (data) {
             console.log('findStory success: ' + data.name);
             currentStory = data;
+            $('#description').val(currentStory.description);
         }
     });
 }
@@ -140,16 +152,14 @@ function renderListVotes(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     var list = data == null ? [] : (data instanceof Array ? data : [data]);
 
-    var $radios = $('input:radio[name=vote]');
 
     if (list.length == 0) {
-        $radios.prop('checked', false);
+        $('#currentVote').val("");
         currentVoteId = null;
     }
     else {
         var vote = list[0];
-        $radios.value(vote.vote);
-        // $radios.filter('[value=' + vote.vote + ']').prop('checked', true);
+        $('#currentVote').val(vote.vote);
         currentVoteId = vote.id;
     }
 }
@@ -157,7 +167,7 @@ function renderListVotes(data) {
 function voteToJSON() {
     return JSON.stringify({
         "id": currentVoteId == "" ? null : currentVoteId,
-        "vote": $('input:radio[name=vote]:checked').val(),
+        "vote": $('#vote').val(),
         "user": currentUser,
         "story": currentStory
     });
@@ -174,6 +184,7 @@ function updateVote() {
         data: voteToJSON(),
         success: function () {
             alert('Vote updated successfully');
+            $('#currentVote').val($('#vote').val());
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('updateVote error: ' + textStatus);
@@ -184,6 +195,26 @@ function updateVote() {
 $(document).ready(function () {
     $("#target").click(function () {
         currentVoteId == null ? createVote() : updateVote();
+    });
+    $("#createSet").click(function () {
+        isSetCreate = true;
+        $('#editSet').modal();
+    });
+    $("#updateSet").click(function () {
+        isSetCreate = false;
+        $('#setName').val(currentStorySet.name);
+        $('#editSet').modal();
+    });
+    $("#createStory").click(function () {
+        isStoryCreate = true;
+        $('#editStory').modal();
+    });
+    $("#updateStory").click(function () {
+        isStoryCreate = false;
+        $('#storyDescription').val(currentStory.description);
+        $('#storySummary').val(currentStory.summary);
+        $('#storyLink').val(currentStory.link);
+        $('#editStory').modal();
     });
 });
 
@@ -197,9 +228,106 @@ function createVote() {
         data: voteToJSON(),
         success: function () {
             alert('Vote created successfully');
+            $('#currentVote').val($('#vote').val());
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('createVote error: ' + textStatus);
         }
+    });
+}
+
+function saveSet() {
+    isSetCreate ? createSet() : updateSet();
+}
+
+function createSet() {
+    console.log('createSet');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: storySetURL,
+        dataType: "text",
+        data: setToJSON(null),
+        success: function () {
+            alert('Set created successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('createSet error: ' + textStatus);
+        }
+    });
+}
+
+function updateSet() {
+    console.log('updateSet');
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        url: storySetURL + "/" + currentStorySet.id,
+        dataType: "text",
+        data: setToJSON(currentStorySet.id),
+        success: function () {
+            alert('Set updated successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('updateSet error: ' + textStatus);
+        }
+    });
+}
+
+function saveStory() {
+    isStoryCreate ? createStory() : updateStory();
+}
+
+function createStory() {
+    console.log('createStory');
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: storySetURL + '/' + currentStorySet.id + '/stories',
+        dataType: "text",
+        data: storyToJSON(null),
+        success: function () {
+            alert('Story created successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('createStory error: ' + textStatus);
+        }
+    });
+}
+
+function updateStory() {
+    console.log('updateStory');
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        url: storySetURL + '/' + currentStorySet.id + '/stories' + "/" + currentStory.id,
+        dataType: "text",
+        data: storyToJSON(currentStory.id),
+        success: function () {
+            alert('Story updated successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('updateStory error: ' + textStatus);
+        }
+    });
+}
+
+function setToJSON(id) {
+    return JSON.stringify({
+        "id": id == null ? null : id,
+        "name": $('#setName').val()
+    });
+}
+
+function storyToJSON(id) {
+    return JSON.stringify({
+        "id": id == null ? null : id,
+        "description": $('#storyDescription').val(),
+        "summary": $('#storySummary').val(),
+        "link": $('#storyLink').val()
     });
 }
