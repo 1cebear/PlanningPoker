@@ -2,7 +2,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -18,13 +18,13 @@
                    charset="utf-8" accept-charset="UTF-8">
 
             name
-            <topjava:inputField label='${userName}' name="name"/>
+            <tags:inputField label='${userName}' name="name"/>
 
             email
-            <topjava:inputField label='${userEmail}' name="email"/>
+            <tags:inputField label='${userEmail}' name="email"/>
 
             password
-            <topjava:inputField label='${userPassword}' name="password" inputType="password"/>
+            <tags:inputField label='${userPassword}' name="password" inputType="password"/>
 
 
             <div class="form-group">

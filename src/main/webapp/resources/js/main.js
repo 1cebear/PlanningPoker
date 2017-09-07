@@ -22,10 +22,13 @@ var setElements;
 
 var isStoryCreate;
 
+var storyElements;
+
 refresh();
 
 function refresh() {
     setElements = [];
+    storyElements = [];
     findAllStorySets();
     findUser();
 }
@@ -62,6 +65,11 @@ function renderListStorySet(data) {
         setElements[i].detach();
     }
     setElements = [];
+    for (var i = 0; i < storyElements.length; i++) {
+        storyElements[i].detach();
+    }
+    storyElements = [];
+    $('#description').val("");
     $.each(list, function (index, storySet) {
         $option = $('<option/>');
         $option.attr('value', storySet.id);
@@ -216,6 +224,12 @@ $(document).ready(function () {
         $('#storyLink').val(currentStory.link);
         $('#editStory').modal();
     });
+    $("#deleteSet").click(function () {
+        deleteSet();
+    });
+    $("#deleteStory").click(function () {
+        deleteStory();
+    });
 });
 
 function createVote() {
@@ -312,6 +326,44 @@ function updateStory() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('updateStory error: ' + textStatus);
+        }
+    });
+}
+
+function deleteSet()
+{
+    console.log('deleteSet');
+    $.ajax({
+        type: 'DELETE',
+        contentType: 'application/json',
+        url: storySetURL + "/" + currentStorySet.id,
+        dataType: "text",
+        data: setToJSON(currentStorySet.id),
+        success: function () {
+            alert('Set deleted successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('deleteSet error: ' + textStatus);
+        }
+    });
+}
+
+function deleteStory()
+{
+    console.log('deleteStory');
+    $.ajax({
+        type: 'DELETE',
+        contentType: 'application/json',
+        url: storySetURL + '/' + currentStorySet.id + '/stories' + "/" + currentStory.id,
+        dataType: "text",
+        data: storyToJSON(currentStory.id),
+        success: function () {
+            alert('Story deleted successfully');
+            findAllStorySets();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('deleteStory error: ' + textStatus);
         }
     });
 }

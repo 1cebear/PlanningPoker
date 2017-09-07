@@ -9,11 +9,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/main.js"></script>
-<jsp:include page="fragments/buttonHeader.jsp"/>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron">
 
     <%--<div class="container">--%>
@@ -21,9 +22,28 @@
     <div class="mainArea">
         <div class="leftTopArea">
             <select class="storySetList"></select>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="createSet" value="Create story set"/>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="updateSet" value="Edit story set"/>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="deleteSet" value="Delete story set"/>
+            </sec:authorize>
             <br>
             <br>
             <ul id="storyList"></ul>
+            <br>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="createStory" value="Create story"/>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="updateStory" value="Edit story"/>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <input type="button" id="deleteStory" value="Delete story"/>
+            </sec:authorize>
         </div>
         <div class="leftBottomArea">
             Current vote: <textarea id="currentVote" class="voteTextArea" readonly></textarea>
