@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.planningpoker.ActiveUser;
+import ru.planningpoker.model.Role;
 import ru.planningpoker.model.User;
 import ru.planningpoker.service.UserService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Icebear on 22.07.2017.
@@ -56,5 +58,29 @@ public class UserRestController extends AbstractUserController {
     @GetMapping("/active")
     public User getActiveUser() {
         return super.get(ActiveUser.id());
+    }
+
+    @PutMapping(value = "/setadmins", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void setAdmins(@RequestBody int[] ids) {
+        for (int id : ids) {
+            User user = super.get(id);
+            Set<Role> roles = user.getRoles();
+            roles.add(Role.ROLE_ADMIN);
+            user.setRoles(roles);
+            super.update(user, id);
+        }
+    }
+
+    @PutMapping(value = "/setusers", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void setUsers(@RequestBody int[] ids) {
+        for (int id : ids) {
+            User user = super.get(id);
+            Set<Role> roles = user.getRoles();
+            if (roles.contains(Role.ROLE_ADMIN)) {
+                roles.remove(Role.ROLE_ADMIN);
+            }
+            user.setRoles(roles);
+            super.update(user, id);
+        }
     }
 }

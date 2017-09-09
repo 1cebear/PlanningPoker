@@ -114,7 +114,7 @@
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="setName" name="setName"
-                                   placeholder="setName">
+                                   placeholder="Name">
                         </div>
                     </div>
 
@@ -146,7 +146,7 @@
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="storySummary" name="storySummary"
-                                   placeholder="storySummary">
+                                   placeholder="Summary">
                         </div>
                     </div>
                     <div class="form-group">
@@ -154,7 +154,7 @@
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="storyDescription" name="storyDescription"
-                                   placeholder="storyDescription">
+                                   placeholder="Description">
                         </div>
                     </div>
                     <div class="form-group">
@@ -162,7 +162,7 @@
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="storyLink" name="storyLink"
-                                   placeholder="storyLink">
+                                   placeholder="Link">
                         </div>
                     </div>
 
@@ -187,7 +187,7 @@
                 <h2 class="modal-title" id="modalTitleResults"></h2>
             </div>
             <div class="modal-body">
-                <form:form class="form-horizontal" id="resultstForm">
+                <form:form class="form-horizontal" id="resultsForm">
                     <table id="resultsTable">
                         <thead>
                         <tr>
@@ -199,6 +199,85 @@
 
                         </tbody>
                     </table>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userProfile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title" id="modalTitleProfile"></h2>
+            </div>
+            <div class="modal-body">
+                <form:form class="form-horizontal" id="editSetForm">
+                    <input type="hidden" id="userId" name="userId">
+                    <div class="form-group">
+                        <label for="description" class="control-label col-xs-3">Name</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="userName" name="userName"
+                                   placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="control-label col-xs-3">Email</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="userEmail" name="userEmail"
+                                   placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="control-label col-xs-3">Password</label>
+
+                        <div class="col-xs-9">
+                            <input type="password" class="form-control" id="userPassword" name="userPassword"
+                                   placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <button class="btn btn-primary" type="button" onclick="saveUser()">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="setAdmins">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title" id="modalTitleAdmins"></h2>
+            </div>
+            <div class="modal-body">
+                <form:form class="form-horizontal" id="resultsForm">
+                    <table id="adminsTable" class="users-admins">
+                        <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Admin</th>
+                        </tr>
+                        </thead>
+
+                    </table>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <button class="btn btn-primary" type="button" onclick="saveAdmins()">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
                 </form:form>
             </div>
         </div>

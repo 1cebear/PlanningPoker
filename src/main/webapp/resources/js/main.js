@@ -233,10 +233,18 @@ $(document).ready(function () {
     $("#showResults").click(function () {
         showResults();
     });
+    $("#editProfile").click(function () {
+        $('#userName').val(currentUser.name);
+        $('#userEmail').val(currentUser.email);
+        $('#userPassword').val(currentUser.password);
+        $('#userProfile').modal();
+    });
+    $("#setAdmin").click(function () {
+        setAdmins();
+    });
 });
 
-function showResults()
-{
+function showResults() {
     $('#resultsTable tbody tr').remove()
     $.ajax({
         type: 'GET',
@@ -244,10 +252,8 @@ function showResults()
         dataType: "json",
         success: function (data) {
             var x;
-            for(x in data)
-            {
-                var markup = "<tr><td>"+x+"</td><td>"+data[x]+"</td></tr>";
-
+            for (x in data) {
+                var markup = "<tr><td>" + x + "</td><td>" + data[x] + "</td></tr>";
                 $("table tbody").append(markup);
             }
         }
@@ -256,6 +262,76 @@ function showResults()
     $('#voteResults').modal();
 }
 
+function setAdmins() {
+    $('#adminsTable tbody tr').remove()
+    $.ajax({
+        type: 'GET',
+        url: userURL,
+        dataType: "json",
+        success: function (data) {
+            var $tbody = $('#adminsTable').append('<tbody />').children('tbody');
+            for (x in data) {
+                $tbody.append('<tr class="item"/>').children('tr:last')
+                    .append("<td id='columnUserId' style='display: none'>" + data[x].id + "</td>")
+                    .append("<td >" + data[x].name + "</td>")
+                    .append("<td><input class='record' type='checkbox' name='record' " + (data[x].roles.includes("ROLE_ADMIN") ? "checked" : "") + "></td>")
+                    .append("<td style='display: none'><input class='oldRecord' type='checkbox' name='oldRecord' " + (data[x].roles.includes("ROLE_ADMIN") ? "checked" : "") + "></td>");
+            }
+        },
+    });
+    $('#setAdmins').modal();
+}
+
+function saveAdmins() {
+    var adminsArray = [];
+    var usersArray = [];
+    $('.users-admins tr').each(function (i, row) {
+        if (i > 0) {
+            var $row = $(row);
+            var id = $($row.children().get(0)).html();
+            if (($($row.children().get(2)).find("input[name='record']").is(":checked")) &&
+                !($($row.children().get(3)).find("input[name='oldRecord']").is(":checked"))) {
+                adminsArray.push(parseInt(id));
+            }
+            else if (!($($row.children().get(2)).find("input[name='record']").is(":checked")) &&
+                ($($row.children().get(3)).find("input[name='oldRecord']").is(":checked"))) {
+                usersArray.push(parseInt(id));
+            }
+        }
+    });
+    if (adminsArray.length > 0) {
+        $.ajax({
+            type: 'PUT',
+            contentType: 'application/json',
+            url: userURL + "/setadmins",
+            dataType: "text",
+            data: JSON.stringify(adminsArray),
+            success: function () {
+                alert('User updated successfully');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('updateUser error: ' + textStatus);
+            }
+        });
+    }
+    if (usersArray.length > 0) {
+        $.ajax({
+            type: 'PUT',
+            contentType: 'application/json',
+            url: userURL + "/setusers",
+            dataType: "text",
+            data: JSON.stringify(usersArray),
+            success: function () {
+                alert('User updated successfully');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('updateUser error: ' + textStatus);
+            }
+        });
+    }
+
+    $('#setAdmins').modal('toggle');
+}
 
 function createVote() {
     console.log('createVote');
@@ -355,8 +431,7 @@ function updateStory() {
     });
 }
 
-function deleteSet()
-{
+function deleteSet() {
     console.log('deleteSet');
     $.ajax({
         type: 'DELETE',
@@ -374,8 +449,7 @@ function deleteSet()
     });
 }
 
-function deleteStory()
-{
+function deleteStory() {
     console.log('deleteStory');
     $.ajax({
         type: 'DELETE',
@@ -406,5 +480,31 @@ function storyToJSON(id) {
         "description": $('#storyDescription').val(),
         "summary": $('#storySummary').val(),
         "link": $('#storyLink').val()
+    });
+}
+
+function saveUser() {
+    console.log('updateUser');
+    $.ajax({
+        type: 'PUT',
+        contentType: 'application/json',
+        url: userURL + "/" + currentUser.id,
+        dataType: "text",
+        data: userToJSON(),
+        success: function () {
+            alert('User updated successfully');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('updateUser error: ' + textStatus);
+        }
+    });
+}
+
+function userToJSON() {
+    return JSON.stringify({
+        "id": currentUser.id,
+        "name": $('#userName').val(),
+        "email": $('#userEmail').val(),
+        "password": $('#userPassword').val()
     });
 }

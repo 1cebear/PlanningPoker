@@ -9,13 +9,17 @@
         <a href="main" class="navbar-brand">Planning poker</a>
 
         <div class="collapse navbar-collapse">
-            <form:form class="navbar-form navbar-right" action="logout" method="post">
+            <form class="navbar-form navbar-right">
                 <sec:authorize access="isAuthenticated()">
-                    <button class="btn btn-primary" type="submit" title = "Logout">
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <input type="button" class="btn btn-info" id="setAdmin" value="Set admin"/>
+                    </sec:authorize>
+                    <input type="button" class="btn btn-info" id="editProfile" value="Edit profile"/>
+                    <a class="btn btn-primary" href="logout">
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                    </button>
+                    </a>
                 </sec:authorize>
-            </form:form>
+            </form>
         </div>
     </div>
 </div>
