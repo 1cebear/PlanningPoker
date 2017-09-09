@@ -27,7 +27,7 @@ public interface CrudStorySetRepository extends JpaRepository<StorySet, Integer>
 
     StorySet findOne(Integer id);
 
-
+    @Query("SELECT s FROM StorySet s ORDER BY s.id desc")
     List<StorySet> findAll(Sort sort);
 
 }

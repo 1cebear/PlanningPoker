@@ -14,6 +14,8 @@ CREATE TABLE users
   enabled    BOOL                DEFAULT TRUE
 );
 
+CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
+
 ALTER TABLE users
   AUTO_INCREMENT = 1;
 

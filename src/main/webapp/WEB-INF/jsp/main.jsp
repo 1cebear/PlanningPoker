@@ -83,6 +83,7 @@
                 Duplicate</option>
             </select>
             <input type="button" id="target" value="Vote"/>
+            <input type="button" id="showResults" value="Show results"/>
         </div>
         <form id="mainForm">
 
@@ -172,6 +173,32 @@
                             </button>
                         </div>
                     </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="voteResults">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title" id="modalTitleResults"></h2>
+            </div>
+            <div class="modal-body">
+                <form:form class="form-horizontal" id="resultstForm">
+                    <table id="resultsTable">
+                        <thead>
+                        <tr>
+                            <th>Vote</th>
+                            <th>Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </form:form>
             </div>
         </div>

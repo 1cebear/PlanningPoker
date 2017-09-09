@@ -12,18 +12,18 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h2> register</h2>
+        <h2> <spring:message text="Register"/></h2>
 
         <form:form modelAttribute="user" class="form-horizontal" method="post" action="${'register'}"
                    charset="utf-8" accept-charset="UTF-8">
 
-            name
+            <spring:message text="Name" var="userName"/>
             <tags:inputField label='${userName}' name="name"/>
 
-            email
+            <spring:message text="Email" var="userEmail"/>
             <tags:inputField label='${userEmail}' name="email"/>
 
-            password
+            <spring:message text="Password" var="userPassword"/>
             <tags:inputField label='${userPassword}' name="password" inputType="password"/>
 
 

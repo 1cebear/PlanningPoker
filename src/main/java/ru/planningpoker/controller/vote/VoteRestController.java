@@ -9,7 +9,9 @@ import ru.planningpoker.ActiveUser;
 import ru.planningpoker.model.Vote;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Icebear on 13.08.2017.
@@ -70,7 +72,7 @@ public class VoteRestController extends AbstractVoteController {
     }
 
     @GetMapping("/forset/{setId}")
-    public List<Vote> getAllForSet(@PathVariable("setId") int setId) {
+    public Map<String, Integer> getAllForSet(@PathVariable("setId") int setId) {
         return super.getAllForSet(setId);
     }
 

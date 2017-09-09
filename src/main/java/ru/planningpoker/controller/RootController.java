@@ -51,7 +51,7 @@ public class RootController extends AbstractUserController{
         } else {
             super.create(user);
             status.setComplete();
-            return "redirect:index?username=" + user.getEmail();
+            return "redirect:index";
         }
     }
 

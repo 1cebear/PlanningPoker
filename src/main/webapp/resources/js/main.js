@@ -230,7 +230,32 @@ $(document).ready(function () {
     $("#deleteStory").click(function () {
         deleteStory();
     });
+    $("#showResults").click(function () {
+        showResults();
+    });
 });
+
+function showResults()
+{
+    $('#resultsTable tbody tr').remove()
+    $.ajax({
+        type: 'GET',
+        url: votesURL + '/forset/' + currentStorySet.id,
+        dataType: "json",
+        success: function (data) {
+            var x;
+            for(x in data)
+            {
+                var markup = "<tr><td>"+x+"</td><td>"+data[x]+"</td></tr>";
+
+                $("table tbody").append(markup);
+            }
+        }
+    });
+
+    $('#voteResults').modal();
+}
+
 
 function createVote() {
     console.log('createVote');
